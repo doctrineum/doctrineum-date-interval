@@ -19,9 +19,9 @@
         "issues": "https://github.com/tubssp/php-doctrine-dateinterval/issues"
     },
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.3.3|7",
         "doctrine/dbal": "~2,>=2.2.3",
-        "tubssp/date-interval": "~1.1"
+        "tubssp/date-interval": "~1.3.1"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*|~4|~5",
