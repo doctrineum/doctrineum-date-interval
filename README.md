@@ -1,7 +1,7 @@
 Doctrine DateInterval Type
 ==========================
 
-[![Build Status](https://travis-ci.org/herrera-io/php-doctrine-dateinterval.png?branch=master)](https://travis-ci.org/herrera-io/php-doctrine-dateinterval)
+[![Build Status](https://travis-ci.org/tubssz/php-doctrine-dateinterval.png?branch=master)](https://travis-ci.org/tubssz/php-doctrine-dateinterval)
 
 Supports DateInterval in Doctrine DBAL and ORM.
 
@@ -13,7 +13,7 @@ The `DateInterval` library
 - adds a `dateinterval` type to DBAL
 - adds a `DATE_INTERVAL` DQL function to ORM
 
-This is made possible by the [`DateInterval`](https://github.com/herrera-io/php-date-interval) library.
+This is made possible by the [`DateInterval`](https://github.com/tubssz/php-date-interval) library.
 
 Installation
 ------------
@@ -21,7 +21,7 @@ Installation
 Add it to your list of Composer dependencies:
 
 ```sh
-$ composer require herrera-io/doctrine-dateinterval=1.*
+$ composer require tubssz/doctrine-dateinterval=1.*
 ```
 
 Register it with Doctrine DBAL:
