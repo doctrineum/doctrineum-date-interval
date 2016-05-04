@@ -1,13 +1,14 @@
 <?php
+namespace Doctrineum\DateInterval\ORM\Query\AST\Functions;
 
-namespace Herrera\Doctrine\ORM\Query\AST\Functions;
-
-use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\AST\Literal;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
+use Doctrineum\DateInterval\DBAL\Types\DateIntervalType;
+use Doctrineum\DateInterval\ToSeconds;
 use Herrera\DateInterval\DateInterval;
 
 /**
@@ -25,13 +26,25 @@ class DateIntervalFunction extends FunctionNode
     private $intervalSpec;
 
     /**
+     * Use as for example "foo.bar < DATE_INTERVAL('PT1H')" in your DQL (interval is always converted to seconds)
+     *
+     * @param EntityManager $entityManager
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public static function addSelfToDQL(EntityManager $entityManager)
+    {
+        $entityManager->getConfiguration()->addCustomDatetimeFunction(
+            DateIntervalType::DATE_INTERVAL, // case insensitive in DQL
+            get_called_class()
+        );
+    }
+
+    /**
      * @override
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        return DateInterval::toSeconds(new DateInterval(
-            $this->intervalSpec->value
-        ));
+        return ToSeconds::toSeconds(new DateInterval($this->intervalSpec->value));
     }
 
     /**

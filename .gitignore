@@ -1,7 +1,9 @@
-.*
+*
 !.gitignore
+!/Doctrineum/
+!/Doctrineum/Tests/tests_bootstrap.php
+!composer.json
 !.travis.yml
-composer.lock
-bin/
-coverage/
-src/vendors/
+!phpunit.xml.dist
+!LICENSE
+!README.md
