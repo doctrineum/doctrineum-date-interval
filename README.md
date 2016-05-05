@@ -1,81 +1,9 @@
 Doctrine DateInterval Type
 ==========================
 
-[![Build Status](https://travis-ci.org/tubssz/php-doctrine-dateinterval.png?branch=master)](https://travis-ci.org/tubssz/php-doctrine-dateinterval)
+[![Build Status](https://travis-ci.org/jaroslavtyc/doctrineum-date-interval.png?branch=master)](https://travis-ci.org/jaroslavtyc/doctrineum-date-interval)
 
-Supports DateInterval in Doctrine DBAL and ORM.
-
-Summary
--------
-
-The `DateInterval` library
-
-- adds a `dateinterval` type to DBAL
-- adds a `DATE_INTERVAL` DQL function to ORM
-
-This is made possible by the [`DateInterval`](https://github.com/tubssz/php-date-interval) library.
-
-Installation
-------------
-
-Add it to your list of Composer dependencies:
-
-```sh
-$ composer require tubssz/doctrine-dateinterval=1.*
-```
-
-Register it with Doctrine DBAL:
-
-```php
-<?php
-
-use Doctrine\DBAL\Types\Type;
-use Herrera\Doctrine\DBAL\Types\DateIntervalType;
-
-Type::addType(
-    DateIntervalType::DATEINTERVAL,
-    'Herrera\\Doctrine\\DBAL\\Types\\DateIntervalType'
-);
-```
-
-Register it with Doctrine ORM:
-
-```php
-<?php
-
-$entityManager->getConfiguration()->addCustomDatetimeFunction(
-    'DATE_INTERVAL',
-    'Herrera\\Doctrine\\ORM\\Query\\AST\\Functions\\DateIntervalFunction'
-);
-
-$entityManager->getConnection()
-              ->getDatabasePlatform()
-              ->registerDoctrineTypeMapping(
-    DateIntervalType::DATEINTERVAL,
-    DateIntervalType::DATEINTERVAL
-);
-```
-
-When using Symfony2 with Doctrine you can do the same as above by only changing your configuration:
-
-```yaml
-# app/config/config.yml
-
-# Doctrine Configuration
-doctrine:
-    dbal:
-        # ...
-        mapping_types:
-            dateinterval: dateinterval
-        types:
-            dateinterval:  Herrera\Doctrine\DBAL\Types\DateIntervalType
-
-    orm:
-        # ...
-        dql:
-            datetime_functions:
-                DATE_INTERVAL: Herrera\Doctrine\ORM\Query\AST\Functions\DateIntervalFunction
-```
+Adds \DateInterval to Doctrine ORM (can be used as a ```@Column(type="date-interval")```) and DBAL (can be used in DQL queries as ```DATE_INTERVAL```).
 
 Usage
 -----
@@ -83,26 +11,30 @@ Usage
 ```php
 <?php
 
+use Doctrine\ORM\Mapping as ORM;
+use Herrera\DateInterval\DateInterval as HerreraDateInterval;
+
 /**
  * @Entity()
- * @Table(name="Jobs")
  */
 class Job
 {
     /**
-     * @Column(type="integer")
-     * @GeneratedValue(strategy="AUTO")
-     * @Id()
+     * @var int
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @Column(type="dateinterval")
+     * @var HerreraDateInterval
+     * @ORM\Column(type="date_interval")
      */
     private $interval;
 
     /**
-     * @return DateInterval
+     * @return HerreraDateInterval
      */
     public function getInterval()
     {
@@ -110,22 +42,22 @@ class Job
     }
 
     /**
-     * @param DateInterval $interval
+     * @param HerreraDateInterval $interval
      */
-    public function setInterval(DateInterval $interval)
+    public function setInterval(HerreraDateInterval $interval)
     {
         $this->interval = $interval;
     }
 }
 
-$annualJob = new Job();
-$annualJob->setInterval(new DateInterval('P1Y'));
+$annualJob = new \Job();
+$annualJob->setInterval(new HerreraDateInterval('P1Y'));
 
-$monthlyJob = new Job();
-$monthlyJob->setInterval(new DateInterval('P1M'));
+$monthlyJob = new \Job();
+$monthlyJob->setInterval(new HerreraDateInterval('P1M'));
 
-$dailyJob = new Job();
-$dailyJob->setInterval(new DateInterval('P1D'));
+$dailyJob = new \Job();
+$dailyJob->setInterval(new HerreraDateInterval('P1D'));
 
 $entityManager->persist($annualJob);
 $entityManager->persist($monthlyJob);
@@ -137,8 +69,56 @@ $jobs = $entityManager->createQuery(
     "SELECT j FROM Jobs j WHERE j.interval < DATE_INTERVAL('P1Y') ORDER BY j.interval ASC"
 )->getResult();
 
-echo $jobs[0]->getInterval()->toSpec(); // "P1D"
+echo $jobs[0]->getInterval()->toSpec(); // "P1D";
 echo $jobs[1]->getInterval()->toSpec(); // "P1M"
+// note: to spec conversion is feature of HerreraDateInterval
 ```
 
-> **NOTICE** The date interval instances returned are of `Herrera\DateInterval\DateInterval`.
+Installation
+------------
+
+Add it to your list of Composer dependencies (or by manual edit your composer.json, the require section)
+
+```sh
+$ composer require jaroslavtyc/doctrineum-date-interval
+```
+
+Register new DBAL type:
+
+```php
+<?php
+
+use Doctrineum\DateInterval\DBAL\Types\DateIntervalType;
+
+DateIntervalType::registerSelf();
+```
+
+Register new Doctrine ORM function:
+
+```php
+<?php
+
+use Doctrineum\DateInterval\ORM\Query\AST\Functions\DateIntervalFunction;
+// ... $entityManager = ...
+DateIntervalFunction::addSelfToDQL($entityManager);
+```
+
+When using Symfony2 with Doctrine you can do the same as above by configuration:
+
+```yaml
+# app/config/config.yml
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        # ...
+        mapping_types:
+            date_interval: date_interval
+        types:
+            date_interval: Doctrineum\DateInterval\DBAL\Types\DateIntervalType
+    orm:
+        # ...
+        dql:
+            datetime_functions:
+                DATE_INTERVAL: Doctrineum\DateInterval\ORM\Query\AST\Functions\DateIntervalFunction
+```

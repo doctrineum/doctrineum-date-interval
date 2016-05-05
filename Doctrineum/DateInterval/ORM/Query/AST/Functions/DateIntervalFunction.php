@@ -30,6 +30,7 @@ class DateIntervalFunction extends FunctionNode
      *
      * @param EntityManager $entityManager
      * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\DBAL\DBALException
      */
     public static function addSelfToDQL(EntityManager $entityManager)
     {
