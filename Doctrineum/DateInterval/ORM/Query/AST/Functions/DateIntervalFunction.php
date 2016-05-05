@@ -8,7 +8,7 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrineum\DateInterval\DBAL\Types\DateIntervalType;
-use Doctrineum\DateInterval\ToSeconds;
+use Doctrineum\DateInterval\DateIntervalToSeconds;
 use Herrera\DateInterval\DateInterval;
 
 /**
@@ -44,7 +44,7 @@ class DateIntervalFunction extends FunctionNode
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        return ToSeconds::toSeconds(new DateInterval($this->intervalSpec->value));
+        return DateIntervalToSeconds::toSeconds(new DateInterval($this->intervalSpec->value));
     }
 
     /**

@@ -1,9 +1,5 @@
-*
-!.gitignore
-!/Doctrineum/
-!/Doctrineum/Tests/tests_bootstrap.php
-!composer.json
-!.travis.yml
-!phpunit.xml.dist
-!LICENSE
-!README.md
+bin/
+phpunit_log/
+vendor/
+.idea/
+composer.lock

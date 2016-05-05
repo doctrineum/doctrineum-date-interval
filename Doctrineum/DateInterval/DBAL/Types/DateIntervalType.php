@@ -4,7 +4,7 @@ namespace Doctrineum\DateInterval\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\BigIntType;
 use Doctrine\DBAL\Types\ConversionException;
-use Doctrineum\DateInterval\ToSeconds;
+use Doctrineum\DateInterval\DateIntervalToSeconds;
 use Herrera\DateInterval\DateInterval as HerreraDateInterval;
 
 /**
@@ -44,7 +44,7 @@ class DateIntervalType extends BigIntType
     {
         return $value === null
             ? null
-            : ToSeconds::toSeconds($value);
+            : DateIntervalToSeconds::toSeconds($value);
     }
 
 
