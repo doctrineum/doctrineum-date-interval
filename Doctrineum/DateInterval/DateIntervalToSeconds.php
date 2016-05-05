@@ -8,8 +8,7 @@ class DateIntervalToSeconds
 
     /**
      * @param \DateInterval $interval
-     * @return int
-     * @throws \Doctrineum\DateInterval\Exceptions\IntervalToIntegerOverflow
+     * @return int|string Returns usually integer, but string if result is too big (> PHP_INT_MAX)
      */
     public static function toSeconds(\DateInterval $interval)
     {
@@ -33,14 +32,12 @@ class DateIntervalToSeconds
 
         if ($interval->y > 0) {
             $yearSeconds = $interval->y * HerreraDateInterval::SECONDS_YEAR;
-            if ((int)$yearSeconds < 0 || !is_int($yearSeconds)) {
-                throw new Exceptions\IntervalToIntegerOverflow(
-                    'Given interval is too high to convert into integer. Years as int resulted into '
-                    . '('  . gettype($yearSeconds) . ') ' . var_export($yearSeconds, true)
-                    . ' which is ' . var_export((int)$yearSeconds, true) . ' as integer'
-                );
+            if ((int)$yearSeconds >= 0) {
+                $seconds += $yearSeconds;
+            } else { // integer overflow
+                // fallback with Boston Math calculation (result is in string)
+                $seconds = bcadd($seconds, bcmul($interval->y, HerreraDateInterval::SECONDS_YEAR));
             }
-            $seconds += $yearSeconds;
         }
 
         return $seconds;

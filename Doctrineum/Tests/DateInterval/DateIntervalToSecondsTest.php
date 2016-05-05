@@ -30,13 +30,14 @@ class DateIntervalToSecondsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \Doctrineum\DateInterval\Exceptions\IntervalToIntegerOverflow
      */
-    public function I_can_not_convert_too_high_interval()
+    public function I_can_convert_to_seconds_even_if_higher_than_max_integer()
     {
         $maxInterval = HerreraDateInterval::fromSeconds(PHP_INT_MAX);
         $overflowingYear = $maxInterval->y + 1;
         $interval = new \DateInterval("P{$overflowingYear}Y");
-        DateIntervalToSeconds::toSeconds($interval);
+        $inSeconds = DateIntervalToSeconds::toSeconds($interval);
+        self::assertInternalType('string', $inSeconds);
+        self::assertGreaterThan(PHP_INT_MAX, $inSeconds);
     }
 }
