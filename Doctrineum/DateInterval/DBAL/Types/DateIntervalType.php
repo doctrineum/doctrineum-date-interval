@@ -2,8 +2,8 @@
 namespace Doctrineum\DateInterval\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\BigIntType;
 use Doctrine\DBAL\Types\ConversionException;
+use Doctrine\DBAL\Types\Type;
 use Doctrineum\DateInterval\DateIntervalToSeconds;
 use Herrera\DateInterval\DateInterval as HerreraDateInterval;
 
@@ -12,7 +12,7 @@ use Herrera\DateInterval\DateInterval as HerreraDateInterval;
  *
  * @author Kevin Herrera <kherrera@ebscohost.com>
  */
-class DateIntervalType extends BigIntType
+class DateIntervalType extends Type
 {
     const DATE_INTERVAL = 'date_interval';
 
@@ -38,6 +38,14 @@ class DateIntervalType extends BigIntType
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    {
+        return $platform->getBigIntTypeDeclarationSQL($fieldDeclaration);
+    }
+
+    /**
      * @override
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
@@ -47,29 +55,30 @@ class DateIntervalType extends BigIntType
             : DateIntervalToSeconds::toSeconds($value);
     }
 
-
     /**
-     * @override
+     * @param string $value
+     * @param AbstractPlatform $platform
+     * @return HerreraDateInterval
+     * @throws \Doctrine\DBAL\Types\ConversionException
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($value !== null) {
-            if (!ctype_digit((string)$value)) {
-                throw ConversionException::conversionFailedFormat(
-                    $value,
-                    $this->getName(),
-                    '^\\d+$'
-                );
-            }
-
-            $value = HerreraDateInterval::fromSeconds($value);
+        if ($value === null) {
+            return null;
+        }
+        if (!ctype_digit((string)$value)) {
+            throw ConversionException::conversionFailedFormat(
+                $value,
+                $this->getName(),
+                '^\\d+$'
+            );
         }
 
-        return $value;
+        return HerreraDateInterval::fromSeconds($value);
     }
 
     /**
-     * @override
+     * @return string
      */
     public function getName()
     {

@@ -73,4 +73,22 @@ class DateIntervalTypeTest extends DbalTestCase
         Type::overrideType(DateIntervalType::DATE_INTERVAL, BigIntType::class);
         DateIntervalType::registerSelf();
     }
+
+    /**
+     * @test
+     */
+    public function It_has_same_SQL_declaration_as_big_int()
+    {
+        DateIntervalType::registerSelf();
+        /** @var DateIntervalType $dateIntervalType */
+        $dateIntervalType = Type::getType('date_interval');
+        $platform = \Mockery::mock(AbstractPlatform::class);
+        $someFieldDeclaration = ['foo'];
+        $platform->shouldReceive('getBigIntTypeDeclarationSQL')
+            ->with($someFieldDeclaration)
+            ->once()
+            ->andReturn($bigIntTypeDeclarationSQL = 'bar');
+        /** @var AbstractPlatform $platform */
+        self::assertSame($bigIntTypeDeclarationSQL, $dateIntervalType->getSQLDeclaration($someFieldDeclaration, $platform));
+    }
 }
