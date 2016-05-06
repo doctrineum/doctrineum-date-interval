@@ -27,7 +27,7 @@
     }
   ],
   "require": {
-    "php": ">=5.5|~7",
+    "php": ">=5.5",
     "ext-bcmath": "*",
     "doctrine/dbal": "~2,>=2.2.3",
     "tubssz/date-interval": "~1.3.4"
