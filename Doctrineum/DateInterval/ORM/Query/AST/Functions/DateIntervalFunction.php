@@ -14,7 +14,7 @@ use Herrera\DateInterval\DateInterval;
 /**
  * "DATE_INTERVAL" "(" StringPrimary ")"
  *
- * @author Kevin Herrera <kherrera@ebscohost.com>
+ * Inspired by original @author Kevin Herrera <kherrera@ebscohost.com>
  */
 class DateIntervalFunction extends FunctionNode
 {

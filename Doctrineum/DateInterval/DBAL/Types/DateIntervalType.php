@@ -10,7 +10,7 @@ use Herrera\DateInterval\DateInterval as HerreraDateInterval;
 /**
  * Stores and retrieves DateInterval instances.
  *
- * @author Kevin Herrera <kherrera@ebscohost.com>
+ * Inspired by original @author Kevin Herrera <kherrera@ebscohost.com>
  */
 class DateIntervalType extends Type
 {
