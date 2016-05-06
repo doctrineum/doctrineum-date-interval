@@ -3,8 +3,8 @@ namespace Doctrineum\DateInterval\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
-use Doctrine\DBAL\Types\Type;
 use Doctrineum\DateInterval\DateIntervalToSeconds;
+use Doctrineum\SelfRegisteringType\AbstractSelfRegisteringType;
 use Herrera\DateInterval\DateInterval as HerreraDateInterval;
 
 /**
@@ -12,29 +12,16 @@ use Herrera\DateInterval\DateInterval as HerreraDateInterval;
  *
  * Inspired by original @author Kevin Herrera <kherrera@ebscohost.com>
  */
-class DateIntervalType extends Type
+class DateIntervalType extends AbstractSelfRegisteringType
 {
     const DATE_INTERVAL = 'date_interval';
 
     /**
-     * @return bool
-     * @throws Exceptions\TypeNameOccupied
-     * @throws \Doctrine\DBAL\DBALException
+     * @return string
      */
-    public static function registerSelf()
+    public function getName()
     {
-        if (static::hasType(self::DATE_INTERVAL)) {
-            $alreadyRegisteredType = static::getType(self::DATE_INTERVAL);
-            if (get_class($alreadyRegisteredType) !== get_called_class()) {
-                throw Exceptions\TypeNameOccupied::typeNameOccupied(self::DATE_INTERVAL, $alreadyRegisteredType);
-            }
-
-            return false;
-        }
-
-        static::addType(self::DATE_INTERVAL, get_called_class());
-
-        return true;
+        return self::DATE_INTERVAL;
     }
 
     /**
@@ -77,11 +64,4 @@ class DateIntervalType extends Type
         return HerreraDateInterval::fromSeconds($value);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return self::DATE_INTERVAL;
-    }
 }

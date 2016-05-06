@@ -3,13 +3,11 @@ namespace Doctrineum\Tests\DateInterval\DBAL\Types;
 
 use DateInterval;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\BigIntType;
 use Doctrine\DBAL\Types\Type;
-use Doctrine\Tests\DBAL\Mocks\MockPlatform;
-use Doctrine\Tests\DbalTestCase;
 use Doctrineum\DateInterval\DBAL\Types\DateIntervalType;
+use Doctrineum\Tests\SelfRegisteringType\AbstractSelfRegisteringTypeTest;
 
-class DateIntervalTypeTest extends DbalTestCase
+class DateIntervalTypeTest extends AbstractSelfRegisteringTypeTest
 {
     /**
      * @var AbstractPlatform
@@ -23,7 +21,7 @@ class DateIntervalTypeTest extends DbalTestCase
 
     protected function setUp()
     {
-        $this->platform = new MockPlatform();
+        $this->platform = $this->mockery(AbstractPlatform::class);
         DateIntervalType::registerSelf();
         $this->type = Type::getType(DateIntervalType::DATE_INTERVAL);
     }
@@ -33,7 +31,10 @@ class DateIntervalTypeTest extends DbalTestCase
         Type::overrideType(DateIntervalType::DATE_INTERVAL, DateIntervalType::class);
     }
 
-    public function testConvertToDatabaseValue()
+    /**
+     * @test
+     */
+    public function I_can_convert_it_to_database_value()
     {
         $interval = new DateInterval('PT30S');
 
@@ -47,14 +48,18 @@ class DateIntervalTypeTest extends DbalTestCase
     }
 
     /**
+     * @test
      * @expectedException \Doctrine\DBAL\Types\ConversionException
      */
-    public function testConvertToPHPValueInvalid()
+    public function I_can_not_convert_invalid_value_from_database_to_php()
     {
         $this->type->convertToPHPValue('abcd', $this->platform);
     }
 
-    public function testConvertToPHPValue()
+    /**
+     * @test
+     */
+    public function I_can_convert_database_value_to_interval()
     {
         $interval = $this->type->convertToPHPValue('30', $this->platform);
 
@@ -62,16 +67,6 @@ class DateIntervalTypeTest extends DbalTestCase
         self::assertNull(
             $this->type->convertToPHPValue(null, $this->platform)
         );
-    }
-
-    /**
-     * @test
-     * @expectedException \Doctrineum\DateInterval\DBAL\Types\Exceptions\TypeNameOccupied
-     */
-    public function I_can_not_register_it_by_self_if_name_is_occupied()
-    {
-        Type::overrideType(DateIntervalType::DATE_INTERVAL, BigIntType::class);
-        DateIntervalType::registerSelf();
     }
 
     /**
