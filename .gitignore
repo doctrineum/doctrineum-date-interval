@@ -1,5 +1,4 @@
 bin/
-phpunit_log/
 vendor/
 .idea/
 composer.lock
