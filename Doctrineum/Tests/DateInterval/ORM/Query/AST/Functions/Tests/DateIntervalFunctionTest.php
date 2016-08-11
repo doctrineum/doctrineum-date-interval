@@ -1,7 +1,6 @@
 <?php
 namespace Doctrineum\Tests\DateInterval\ORM\Query\AST\Functions;
 
-use DateInterval;
 use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\DBAL\Logging\SQLLogger;
 use Doctrine\ORM\EntityManager;
@@ -108,7 +107,7 @@ class Job
     }
 
     /**
-     * @return DateInterval
+     * @return \DateInterval
      */
     public function getInterval()
     {
@@ -116,9 +115,9 @@ class Job
     }
 
     /**
-     * @param DateInterval $interval
+     * @param \DateInterval $interval
      */
-    public function setInterval(DateInterval $interval)
+    public function setInterval(\DateInterval $interval)
     {
         $this->interval = $interval;
     }

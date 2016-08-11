@@ -1,7 +1,6 @@
 <?php
 namespace Doctrineum\Tests\DateInterval\DBAL\Types;
 
-use DateInterval;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 use Doctrineum\DateInterval\DBAL\Types\DateIntervalType;
@@ -36,7 +35,7 @@ class DateIntervalTypeTest extends AbstractSelfRegisteringTypeTest
      */
     public function I_can_convert_it_to_database_value()
     {
-        $interval = new DateInterval('PT30S');
+        $interval = new \DateInterval('PT30S');
 
         self::assertEquals(
             '30',

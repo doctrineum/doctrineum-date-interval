@@ -4,8 +4,8 @@ namespace Doctrineum\DateInterval\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrineum\DateInterval\DateIntervalToSeconds;
+use Doctrineum\DateInterval\HerreraDateInterval;
 use Doctrineum\SelfRegisteringType\AbstractSelfRegisteringType;
-use Herrera\DateInterval\DateInterval as HerreraDateInterval;
 
 /**
  * Stores and retrieves DateInterval instances.

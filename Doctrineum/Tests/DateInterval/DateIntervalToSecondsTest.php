@@ -2,7 +2,7 @@
 namespace Doctrineum\Tests\DateInterval;
 
 use Doctrineum\DateInterval\DateIntervalToSeconds;
-use Herrera\DateInterval\DateInterval as HerreraDateInterval;
+use Doctrineum\DateInterval\HerreraDateInterval;
 
 class DateIntervalToSecondsTest extends \PHPUnit_Framework_TestCase
 {

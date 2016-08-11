@@ -1,8 +1,6 @@
 <?php
 namespace Doctrineum\DateInterval;
 
-use Herrera\DateInterval\DateInterval as HerreraDateInterval;
-
 class DateIntervalToSeconds
 {
 
