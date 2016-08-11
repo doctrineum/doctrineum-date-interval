@@ -3,8 +3,7 @@ namespace Doctrineum\DateInterval\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
-use Doctrineum\DateInterval\DateIntervalToSeconds;
-use Doctrineum\DateInterval\HerreraDateInterval;
+use Doctrineum\DateInterval\DateInterval;
 use Doctrineum\SelfRegisteringType\AbstractSelfRegisteringType;
 
 /**
@@ -39,13 +38,13 @@ class DateIntervalType extends AbstractSelfRegisteringType
     {
         return $value === null
             ? null
-            : DateIntervalToSeconds::toSeconds($value);
+            : DateInterval::intervalToSeconds($value);
     }
 
     /**
      * @param string $value
      * @param AbstractPlatform $platform
-     * @return HerreraDateInterval
+     * @return DateInterval
      * @throws \Doctrine\DBAL\Types\ConversionException
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
@@ -61,7 +60,7 @@ class DateIntervalType extends AbstractSelfRegisteringType
             );
         }
 
-        return HerreraDateInterval::fromSeconds($value);
+        return DateInterval::fromSeconds($value);
     }
 
 }

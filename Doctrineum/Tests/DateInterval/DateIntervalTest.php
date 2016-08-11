@@ -1,10 +1,11 @@
 <?php
 namespace Doctrineum\Tests\DateInterval;
 
-use Doctrineum\DateInterval\DateIntervalToSeconds;
-use Doctrineum\DateInterval\HerreraDateInterval;
+use Doctrineum\DateInterval\DateInterval as DoctrineumDateInterval;
 
-class DateIntervalToSecondsTest extends \PHPUnit_Framework_TestCase
+include_once __DIR__ . '/../../../vendor/herrera-io/date-interval/src/tests/Herrera/DateInterval/Tests/DateIntervalTest.php';
+
+class DateIntervalTest extends \Herrera\DateInterval\Tests\DateIntervalTest
 {
     /**
      * @test
@@ -15,7 +16,11 @@ class DateIntervalToSecondsTest extends \PHPUnit_Framework_TestCase
     public function I_can_convert_interval_to_seconds($expectedSeconds, $intervalSpecification)
     {
         $interval = new \DateInterval($intervalSpecification);
-        self::assertSame($expectedSeconds, $inSeconds = DateIntervalToSeconds::toSeconds($interval));
+        self::assertSame($expectedSeconds, $inSeconds = DoctrineumDateInterval::intervalToSeconds($interval));
+        self::assertInternalType('int', $inSeconds);
+
+        $doctrineumInterval = new DoctrineumDateInterval($intervalSpecification);
+        self::assertSame($expectedSeconds, $inSeconds = $doctrineumInterval->toSeconds());
         self::assertInternalType('int', $inSeconds);
     }
 
@@ -33,10 +38,16 @@ class DateIntervalToSecondsTest extends \PHPUnit_Framework_TestCase
      */
     public function I_can_convert_to_seconds_even_if_higher_than_max_integer()
     {
-        $maxInterval = HerreraDateInterval::fromSeconds(PHP_INT_MAX);
+        $maxInterval = DoctrineumDateInterval::fromSeconds(PHP_INT_MAX);
         $overflowingYear = $maxInterval->y + 1;
+
         $interval = new \DateInterval("P{$overflowingYear}Y");
-        $inSeconds = DateIntervalToSeconds::toSeconds($interval);
+        $inSeconds = DoctrineumDateInterval::intervalToSeconds($interval);
+        self::assertInternalType('string', $inSeconds);
+        self::assertGreaterThan(PHP_INT_MAX, $inSeconds);
+
+        $doctrineumInterval = new DoctrineumDateInterval("P{$overflowingYear}Y");
+        $inSeconds = $doctrineumInterval->toSeconds();
         self::assertInternalType('string', $inSeconds);
         self::assertGreaterThan(PHP_INT_MAX, $inSeconds);
     }
