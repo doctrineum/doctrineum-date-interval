@@ -13,9 +13,12 @@ matrix:
     - php: nightly
 
 before_script:
-  - if [[ $TRAVIS_PHP_VERSION =~ ^[0-9]+[.][0-9]+$ ]]; then phpenv config-rm xdebug.ini; fi
   - composer selfupdate
-  - composer update --dev --no-interaction --prefer-source # source is required because of Doctrine ORM composer.json archive.exclude.tests directive and we need those...
+  - composer update --no-interaction --prefer-dist
+  - composer require codeclimate/php-test-reporter:@dev --dev
 
 script:
-  - ./vendor/phpunit/phpunit/phpunit -v
+  - ./vendor/phpunit/phpunit/phpunit -v --coverage-clover build/logs/clover.xml
+
+after_script:
+  - CODECLIMATE_REPO_TOKEN=65f2616436b9bd5a63adc81451135ee71781af46e6c10132fadf219e97dcedbc ./vendor/bin/test-reporter
