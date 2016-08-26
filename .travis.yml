@@ -15,7 +15,7 @@ matrix:
 before_script:
   - composer selfupdate
   - composer update --no-interaction --prefer-dist
-  - composer require codeclimate/php-test-reporter:@dev --dev
+  - composer require codeclimate/php-test-reporter:dev-master --dev
 
 script:
   - ./vendor/phpunit/phpunit/phpunit -v --coverage-clover build/logs/clover.xml
