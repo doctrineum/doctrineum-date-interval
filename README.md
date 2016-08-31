@@ -2,6 +2,8 @@ Doctrine DateInterval Type
 ==========================
 
 [![Build Status](https://travis-ci.org/jaroslavtyc/doctrineum-date-interval.png?branch=master)](https://travis-ci.org/jaroslavtyc/doctrineum-date-interval)
+[![Test Coverage](https://codeclimate.com/github/jaroslavtyc/doctrineum-date-interval/badges/coverage.svg)](https://codeclimate.com/github/jaroslavtyc/doctrineum-date-interval/coverage)
+[![License](https://poser.pugx.org/doctrineum/date-interval/license)](https://packagist.org/packages/doctrineum/date-interval)
 
 Adds \DateInterval to Doctrine ORM (can be used as a ```@Column(type="date-interval")```) and DBAL (can be used in DQL queries as ```DATE_INTERVAL```).
 
@@ -15,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Herrera\DateInterval\DateInterval as HerreraDateInterval;
 
 /**
- * @Entity()
+ * @ORM\Entity()
  */
 class Job
 {
