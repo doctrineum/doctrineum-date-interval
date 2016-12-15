@@ -1,10 +1,11 @@
 language: php
 php:
+  - nightly
+  - hhvm
+  - 7.1
   - 7.0
   - 5.6
   - 5.5
-  - nightly
-  - hhvm
 
 matrix:
   allow_failures:
@@ -18,5 +19,6 @@ before_script:
 script:
   - ./vendor/phpunit/phpunit/phpunit -v --coverage-clover build/logs/clover.xml
 
-after_script:
-  - CODECLIMATE_REPO_TOKEN=65f2616436b9bd5a63adc81451135ee71781af46e6c10132fadf219e97dcedbc ./vendor/bin/test-reporter
+addons:
+    code_climate:
+        repo_token: 65f2616436b9bd5a63adc81451135ee71781af46e6c10132fadf219e97dcedbc
