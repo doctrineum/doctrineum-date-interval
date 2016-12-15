@@ -27,14 +27,14 @@
     }
   ],
   "require": {
-    "php": ">=5.5|~7.0",
+    "php": ">=5.5",
     "ext-bcmath": "*",
     "doctrine/dbal": "~2,>=2.2.3",
     "doctrineum/self-registering-type": "dev-master",
     "herrera-io/date-interval": "^1.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4|~5",
+    "phpunit/phpunit": ">=4.2",
     "doctrine/orm": "~2,>=2.2.3",
     "mockery/mockery": "dev-master",
     "ext-pdo_sqlite": "*"
