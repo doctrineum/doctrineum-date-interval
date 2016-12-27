@@ -12,9 +12,9 @@ matrix:
     - php: nightly
 
 before_script:
-  - composer selfupdate
-  - composer update --no-interaction --prefer-dist
+  - composer self-update
   - composer require codeclimate/php-test-reporter:dev-master --dev
+  - composer update --no-interaction --prefer-dist
 
 script:
   - ./vendor/phpunit/phpunit/phpunit -v --coverage-clover build/logs/clover.xml
