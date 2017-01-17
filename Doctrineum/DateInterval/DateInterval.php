@@ -1,13 +1,11 @@
 <?php
 namespace Doctrineum\DateInterval;
 
-use Herrera\DateInterval\DateInterval as HerreraDateInterval;
-
 /**
  * @method static DateInterval fromSeconds($seconds)
  * @method static DateInterval createFromDateString($time)
  */
-class DateInterval extends HerreraDateInterval
+class DateInterval extends \Granam\DateInterval\DateInterval
 {
     /**
      * @param \DateInterval $interval
