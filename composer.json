@@ -31,7 +31,7 @@
     "ext-bcmath": "*",
     "doctrine/dbal": "~2,>=2.2.3",
     "doctrineum/self-registering-type": "dev-master",
-    "herrera-io/date-interval": "^1.2"
+    "granam/date-interval": "^1.2"
   },
   "require-dev": {
     "phpunit/phpunit": ">=4.2",
