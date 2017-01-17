@@ -3,7 +3,7 @@ namespace Doctrineum\Tests\DateInterval;
 
 use Doctrineum\DateInterval\DateInterval as DoctrineumDateInterval;
 
-include_once __DIR__ . '/../../../vendor/herrera-io/date-interval/src/tests/Herrera/DateInterval/Tests/DateIntervalTest.php';
+include_once __DIR__ . '/../../../vendor/granam/date-interval/src/tests/Herrera/DateInterval/Tests/DateIntervalTest.php';
 
 class DateIntervalTest extends \Herrera\DateInterval\Tests\DateIntervalTest
 {
