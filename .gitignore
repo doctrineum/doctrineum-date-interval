@@ -1,4 +1,4 @@
-bin/
 vendor/
 .idea/
 composer.lock
+phpunit_log/
