@@ -30,8 +30,8 @@
     "php": ">=7.0",
     "ext-bcmath": "*",
     "doctrine/dbal": "~2,>=2.2.3",
-    "doctrineum/self-registering-type": "dev-master",
-    "granam/date-interval": "dev-master"
+    "granam/date-interval": "^3.0",
+    "doctrineum/self-registering-type": "^2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "~6.0",
@@ -43,7 +43,5 @@
     "psr-4": {
       "Doctrineum\\": "Doctrineum"
     }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+  }
 }
