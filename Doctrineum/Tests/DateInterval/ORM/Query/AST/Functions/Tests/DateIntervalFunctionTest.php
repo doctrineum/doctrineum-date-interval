@@ -7,10 +7,11 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Doctrineum\DateInterval\DBAL\Types\DateIntervalType;
 use Doctrineum\DateInterval\ORM\Query\AST\Functions\DateIntervalFunction;
+use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_TestCase;
 use Doctrine\ORM\Mapping as ORM;
 
-class DateIntervalFunctionTest extends PHPUnit_Framework_TestCase
+class DateIntervalFunctionTest extends TestCase
 {
 
     /**
