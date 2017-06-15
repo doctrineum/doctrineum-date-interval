@@ -10,9 +10,11 @@ Adds `DateInterval` to Doctrine ORM (can be used as a `@Column(type="date-interv
 
 ```php
 <?php
+namespace ChopChop;
 
 use Doctrine\ORM\Mapping as ORM;
-use Herrera\DateInterval\DateInterval as HerreraDateInterval;
+use \Granam\DateInterval\DateInterval as GranamDateInterval;
+
 
 /**
  * @ORM\Entity()
@@ -26,36 +28,36 @@ class Job
     private $id;
 
     /**
-     * @var HerreraDateInterval
+     * @var GranamDateInterval
      * @ORM\Column(type="date_interval")
      */
     private $interval;
 
     /**
-     * @return HerreraDateInterval
+     * @return GranamDateInterval
      */
-    public function getInterval()
+    public function getInterval(): GranamDateInterval
     {
         return $this->interval;
     }
 
     /**
-     * @param HerreraDateInterval $interval
+     * @param GranamDateInterval $interval
      */
-    public function setInterval(HerreraDateInterval $interval)
+    public function setInterval(GranamDateInterval $interval)
     {
         $this->interval = $interval;
     }
 }
 
 $annualJob = new Job();
-$annualJob->setInterval(new HerreraDateInterval('P1Y'));
+$annualJob->setInterval(new GranamDateInterval('P1Y'));
 
 $monthlyJob = new Job();
-$monthlyJob->setInterval(new HerreraDateInterval('P1M'));
+$monthlyJob->setInterval(new GranamDateInterval('P1M'));
 
 $dailyJob = new Job();
-$dailyJob->setInterval(new HerreraDateInterval('P1D'));
+$dailyJob->setInterval(new GranamDateInterval('P1D'));
 
 /** @var \Doctrine\ORM\EntityManager $entityManager */
 $entityManager->persist($annualJob);
@@ -103,7 +105,7 @@ use Doctrineum\DateInterval\ORM\Query\AST\Functions\DateIntervalFunction;
 DateIntervalFunction::addSelfToDQL($entityManager);
 ```
 
-When using Symfony2 with Doctrine you can do the same as above by configuration:
+When using Symfony with Doctrine you can do the same as above by configuration:
 
 ```yaml
 # app/config/config.yml
