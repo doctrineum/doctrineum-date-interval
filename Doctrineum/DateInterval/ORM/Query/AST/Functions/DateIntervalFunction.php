@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1); // on PHP 7+ are standard PHP methods strict to types of given parameters
+
 namespace Doctrineum\DateInterval\ORM\Query\AST\Functions;
 
 use Doctrine\ORM\EntityManager;
@@ -12,7 +14,6 @@ use Doctrineum\DateInterval\DateInterval;
 
 /**
  * "DATE_INTERVAL" "(" StringPrimary ")"
- *
  * Inspired by original @author Kevin Herrera <kherrera@ebscohost.com>
  */
 class DateIntervalFunction extends FunctionNode
@@ -35,28 +36,27 @@ class DateIntervalFunction extends FunctionNode
     {
         $entityManager->getConfiguration()->addCustomDatetimeFunction(
             DateIntervalType::DATE_INTERVAL, // case insensitive in DQL
-            get_called_class()
+            static::class
         );
     }
 
     /**
-     * @override
+     * @param SqlWalker $sqlWalker
+     * @return string
      */
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker): string
     {
         return DateInterval::intervalToSeconds(new DateInterval($this->intervalSpec->value));
     }
 
     /**
-     * @override
+     * @param Parser $parser
      */
     public function parse(Parser $parser)
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
-
         $this->intervalSpec = $parser->StringPrimary();
-
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 }

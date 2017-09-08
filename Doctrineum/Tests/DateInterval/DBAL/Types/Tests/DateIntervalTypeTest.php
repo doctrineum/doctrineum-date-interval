@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1); // on PHP 7+ are standard PHP methods strict to types of given parameters
+
 namespace Doctrineum\Tests\DateInterval\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -63,9 +65,7 @@ class DateIntervalTypeTest extends AbstractSelfRegisteringTypeTest
         $interval = $this->type->convertToPHPValue('30', $this->platform);
 
         self::assertEquals(30, $interval->s);
-        self::assertNull(
-            $this->type->convertToPHPValue(null, $this->platform)
-        );
+        self::assertNull($this->type->convertToPHPValue(null, $this->platform));
     }
 
     /**

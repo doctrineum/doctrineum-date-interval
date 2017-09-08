@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1); // on PHP 7+ are standard PHP methods strict to types of given parameters
+
 namespace Doctrineum\DateInterval;
 
 /**
@@ -9,49 +11,43 @@ class DateInterval extends \Granam\DateInterval\DateInterval
 {
     /**
      * @param \DateInterval $interval
-     * @return int|string Returns usually integer, but string if result is too big (> PHP_INT_MAX)
+     * @return string Returns number of seconds, but turned to string to avoid information loss if too big (> PHP_INT_MAX)
      */
-    public static function intervalToSeconds(\DateInterval $interval)
+    public static function intervalToSeconds(\DateInterval $interval): string
     {
         $seconds = $interval->s;
-
         if ($interval->i > 0) {
-            $seconds += $interval->i * DateInterval::SECONDS_MINUTE;
+            $seconds += $interval->i * self::SECONDS_MINUTE;
         }
-
         if ($interval->h > 0) {
-            $seconds += $interval->h * DateInterval::SECONDS_HOUR;
+            $seconds += $interval->h * self::SECONDS_HOUR;
         }
-
         if ($interval->d > 0) {
-            $seconds += $interval->d * DateInterval::SECONDS_DAY;
+            $seconds += $interval->d * self::SECONDS_DAY;
         }
-
         if ($interval->m > 0) {
-            $seconds += $interval->m * DateInterval::SECONDS_MONTH;
+            $seconds += $interval->m * self::SECONDS_MONTH;
         }
-
         if ($interval->y > 0) {
-            $yearSeconds = $interval->y * DateInterval::SECONDS_YEAR;
-            if ((int)$yearSeconds >= 0) {
+            $yearSeconds = $interval->y * self::SECONDS_YEAR;
+            if ($yearSeconds >= 0) {
                 $seconds += $yearSeconds;
             } else { // integer overflow
                 // fallback with Boston Math calculation (result is in string)
-                $seconds = bcadd($seconds, bcmul($interval->y, DateInterval::SECONDS_YEAR));
+                $seconds = bcadd($seconds, bcmul($interval->y, self::SECONDS_YEAR));
             }
         }
 
-        return $seconds;
+        return (string)$seconds;
     }
 
     /**
      * Returns the total number of seconds in the interval.
      *
      * @param \DateInterval $interval The date interval.
-     *
-     * @return string|int The number of seconds.
+     * @return string The number of seconds is string (because it can be bigger than PHP_INT_MAX)
      */
-    public function toSeconds(\DateInterval $interval = null)
+    public function toSeconds(\DateInterval $interval = null): string
     {
         if ($interval === null) {
             $interval = $this;

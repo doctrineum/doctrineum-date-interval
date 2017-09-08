@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1); // on PHP 7+ are standard PHP methods strict to types of given parameters
+
 namespace Doctrineum\DateInterval\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -8,7 +10,6 @@ use Doctrineum\SelfRegisteringType\AbstractSelfRegisteringType;
 
 /**
  * Stores and retrieves DateInterval instances.
- *
  * Inspired by original @author Kevin Herrera <kherrera@ebscohost.com>
  */
 class DateIntervalType extends AbstractSelfRegisteringType
@@ -18,23 +19,27 @@ class DateIntervalType extends AbstractSelfRegisteringType
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::DATE_INTERVAL;
     }
 
     /**
-     * {@inheritdoc}
+     * @param array $fieldDeclaration
+     * @param AbstractPlatform $platform
+     * @return string
      */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         return $platform->getBigIntTypeDeclarationSQL($fieldDeclaration);
     }
 
     /**
-     * @override
+     * @param mixed $value
+     * @param AbstractPlatform $platform
+     * @return null|string
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform):? string
     {
         return $value === null
             ? null
@@ -44,10 +49,10 @@ class DateIntervalType extends AbstractSelfRegisteringType
     /**
      * @param string $value
      * @param AbstractPlatform $platform
-     * @return DateInterval
+     * @return DateInterval|null
      * @throws \Doctrine\DBAL\Types\ConversionException
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform):? DateInterval
     {
         if ($value === null) {
             return null;
@@ -62,5 +67,4 @@ class DateIntervalType extends AbstractSelfRegisteringType
 
         return DateInterval::fromSeconds($value);
     }
-
 }

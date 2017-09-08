@@ -27,7 +27,7 @@
     }
   ],
   "require": {
-    "php": ">=7.0",
+    "php": ">=7.1",
     "ext-bcmath": "*",
     "doctrine/dbal": "~2,>=2.2.3",
     "doctrineum/self-registering-type": "dev-master",
