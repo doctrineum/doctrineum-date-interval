@@ -20,22 +20,29 @@ class DateIntervalTypeTest extends AbstractSelfRegisteringTypeTest
      */
     protected $type;
 
-    protected function setUp()
+    /**
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    protected function setUp(): void
     {
         $this->platform = $this->mockery(AbstractPlatform::class);
         DateIntervalType::registerSelf();
         $this->type = Type::getType(DateIntervalType::DATE_INTERVAL);
     }
 
-    protected function tearDown()
+    /**
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    protected function tearDown(): void
     {
         Type::overrideType(DateIntervalType::DATE_INTERVAL, DateIntervalType::class);
     }
 
     /**
      * @test
+     * @throws \Exception
      */
-    public function I_can_convert_it_to_database_value()
+    public function I_can_convert_it_to_database_value(): void
     {
         $interval = new \DateInterval('PT30S');
 
@@ -52,15 +59,16 @@ class DateIntervalTypeTest extends AbstractSelfRegisteringTypeTest
      * @test
      * @expectedException \Doctrine\DBAL\Types\ConversionException
      */
-    public function I_can_not_convert_invalid_value_from_database_to_php()
+    public function I_can_not_convert_invalid_value_from_database_to_php(): void
     {
         $this->type->convertToPHPValue('abcd', $this->platform);
     }
 
     /**
      * @test
+     * @throws \Doctrine\DBAL\Types\ConversionException
      */
-    public function I_can_convert_database_value_to_interval()
+    public function I_can_convert_database_value_to_interval(): void
     {
         $interval = $this->type->convertToPHPValue('30', $this->platform);
 
@@ -70,8 +78,9 @@ class DateIntervalTypeTest extends AbstractSelfRegisteringTypeTest
 
     /**
      * @test
+     * @throws \Doctrine\DBAL\DBALException
      */
-    public function It_has_same_SQL_declaration_as_big_int()
+    public function It_has_same_SQL_declaration_as_big_int(): void
     {
         DateIntervalType::registerSelf();
         /** @var DateIntervalType $dateIntervalType */

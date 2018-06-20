@@ -22,9 +22,14 @@ class DateIntervalFunctionTest extends TestCase
     /** @var SQLLogger */
     private $sqlLogger;
 
-    protected function setUp()
+    /**
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\ORM\ORMException
+     */
+    protected function setUp(): void
     {
-        if (!extension_loaded('pdo_sqlite')) {
+        if (!\extension_loaded('pdo_sqlite')) {
             self::markTestSkipped('The pdo_sqlite extension is not available.');
         }
         $config = Setup::createAnnotationMetadataConfiguration($paths = [__DIR__], true /* dev mode */);
@@ -43,7 +48,7 @@ class DateIntervalFunctionTest extends TestCase
     /**
      * @test
      */
-    public function I_can_use_date_interval_in_dql()
+    public function I_can_use_date_interval_in_dql(): void
     {
         $query = $this->entityManager->createQuery(str_replace(
             '%s',
@@ -70,7 +75,7 @@ DQL
 class Job
 {
     /**
-     * @var int
+     * @var int|null
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id()
@@ -84,17 +89,17 @@ class Job
     private $interval;
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @return \DateInterval
+     * @return \DateInterval|null
      */
-    public function getInterval()
+    public function getInterval(): ?\DateInterval
     {
         return $this->interval;
     }
@@ -102,7 +107,7 @@ class Job
     /**
      * @param \DateInterval $interval
      */
-    public function setInterval(\DateInterval $interval)
+    public function setInterval(\DateInterval $interval): void
     {
         $this->interval = $interval;
     }

@@ -29,10 +29,8 @@ class DateIntervalFunction extends FunctionNode
      * Use as for example "foo.bar < DATE_INTERVAL('PT1H')" in your DQL (interval is always converted to seconds)
      *
      * @param EntityManager $entityManager
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\DBAL\DBALException
      */
-    public static function addSelfToDQL(EntityManager $entityManager)
+    public static function addSelfToDQL(EntityManager $entityManager): void
     {
         $entityManager->getConfiguration()->addCustomDatetimeFunction(
             DateIntervalType::DATE_INTERVAL, // case insensitive in DQL
@@ -51,8 +49,9 @@ class DateIntervalFunction extends FunctionNode
 
     /**
      * @param Parser $parser
+     * @throws \Doctrine\ORM\Query\QueryException
      */
-    public function parse(Parser $parser)
+    public function parse(Parser $parser): void
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);

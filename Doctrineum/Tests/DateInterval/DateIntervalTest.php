@@ -14,8 +14,9 @@ class DateIntervalTest extends \Granam\Tests\DateInterval\DateIntervalTest
      * @dataProvider provideIntervalSpecification
      * @param string|int $expectedSeconds
      * @param string $intervalSpecification
+     * @throws \Exception
      */
-    public function I_can_convert_interval_to_seconds($expectedSeconds, string $intervalSpecification)
+    public function I_can_convert_interval_to_seconds($expectedSeconds, string $intervalSpecification): void
     {
         $expectedSeconds = (String)$expectedSeconds;
         $interval = new \DateInterval($intervalSpecification);
@@ -38,8 +39,9 @@ class DateIntervalTest extends \Granam\Tests\DateInterval\DateIntervalTest
 
     /**
      * @test
+     * @throws \Exception
      */
-    public function I_can_convert_to_seconds_even_if_higher_than_max_integer()
+    public function I_can_convert_to_seconds_even_if_higher_than_max_integer(): void
     {
         $maxInterval = DoctrineumDateInterval::fromSeconds(PHP_INT_MAX);
         $overflowingYear = $maxInterval->y + 1;
