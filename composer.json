@@ -30,8 +30,8 @@
     "php": ">=7.1",
     "ext-bcmath": "*",
     "doctrine/dbal": "~2,>=2.2.3",
-    "doctrineum/self-registering-type": "dev-master",
-    "granam/date-interval": "dev-master"
+    "doctrineum/self-registering-type": "^2.1",
+    "granam/date-interval": "^3.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
